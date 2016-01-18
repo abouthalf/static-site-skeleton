@@ -1,0 +1,16 @@
+{
+  "name": "static-site-skeleton",
+  "version": "0.0.1",
+  "description": "A static site generator gulp recipe",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "gulp",
+    "static",
+    "generator"
+  ],
+  "author": "mb@abouthalf.com",
+  "license": "ISC"
+}
