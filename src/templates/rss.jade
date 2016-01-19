@@ -1,0 +1,14 @@
+doctype xml
+rss(version='2.0')
+	channel
+		title= title
+		description= description
+		language= language
+		image= image
+		pubDate= (new Date()).toGMTString()
+		each item in items
+			item
+				title= item.title
+				pubDate= (new Date(item.pubDate)).toGMTString()
+				description= item.description
+				link= item.link

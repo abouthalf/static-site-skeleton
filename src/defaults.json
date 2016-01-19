@@ -1,0 +1,4 @@
+{
+  "postsPerPage": 10,
+  "defaultTemplate": "default.jade"
+}
