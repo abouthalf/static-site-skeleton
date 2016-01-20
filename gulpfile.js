@@ -15,7 +15,7 @@ const cleanCss = new LessPluginCleanCSS({advanced: true}),
 	autoPreFix = new LessPluginAutoPrefix({browsers: ["last 2 versions"]});
 
 // local plugins
-const parseFileDate = require("./lib/parse-file-date"),
+const ensureFileDate = require("./lib/ensure-file-date"),
 	pageToTemplate = require("./lib/page-to-template");
 
 const defaults = require("./src/defaults.json");
@@ -58,7 +58,7 @@ gulp.task("posts", function () {
 		.pipe(frontMatter({
 			property: DATA_PROP
 		}))
-		.pipe(parseFileDate())
+		.pipe(ensureFileDate())
 		.pipe(markdown())
 		.pipe(pageToTemplate(pageToTemplateOpts))
 		.pipe(jade({pretty: true}))
@@ -73,7 +73,7 @@ gulp.task("pages", function () {
 		.pipe(frontMatter({
 			property: DATA_PROP
 		}))
-		.pipe(parseFileDate())
+		.pipe(ensureFileDate())
 		.pipe(markdown())
 		.pipe(pageToTemplate(pageToTemplateOpts))
 		.pipe(jade({pretty: true}))
