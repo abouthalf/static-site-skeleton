@@ -7,6 +7,8 @@ const gulp = require("gulp"),
 	LessPluginAutoPrefix = require('less-plugin-autoprefix'),
 	LessPluginCleanCSS = require('less-plugin-clean-css');
 
+const parseFileDate = require("./lib/parse-file-date");
+
 const cleanCss = new LessPluginCleanCSS({advanced: true}),
 	autoPreFix = new LessPluginAutoPrefix({browsers: ["last 2 versions"]});
 
@@ -34,6 +36,7 @@ gulp.task("posts", function () {
 		.pipe(frontMatter({
 			property: DATA_PROP
 		}))
+		.pipe(parseFileDate("fake"))
 		.pipe(markdown())
 		.pipe(gulp.dest("www/posts"));
 });
