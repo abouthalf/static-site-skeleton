@@ -1,4 +1,11 @@
 {
   "postsPerPage": 10,
-  "defaultTemplate": "default.jade"
+  "template": "default.jade",
+  "title": "Static Site Skeleton",
+  "description": "A static site generator as a gulp recipe",
+  "keywords": "static with gulp yay",
+  "language": "en-US",
+  "homePage": "home.md",
+  "blogOnHomePage": true,
+  "blogDirectory": "blog"
 }
