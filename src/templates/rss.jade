@@ -3,8 +3,10 @@ rss(version='2.0')
 	channel
 		title= title
 		description= description
-		language= language
-		image= image
+		- if (language)
+			language= language
+		- if (image)
+			image= image
 		pubDate= (new Date()).toGMTString()
 		each item in items
 			item

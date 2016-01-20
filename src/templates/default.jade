@@ -1,0 +1,19 @@
+doctype html
+head
+	title= title
+	meta(charset='UTF-8')
+	meta(name='viewport',content='width=device-width,initial-scale=1.0')
+	link(href='/css/main.css',rel='stylesheet')
+body
+	header
+		h1= title
+		h2= description
+	main
+		if page
+			div.page= page
+		else if posts && posts.length
+			each post in posts
+				div.post= post
+	footer
+		p Copypants All Rights Returned 2016
+
