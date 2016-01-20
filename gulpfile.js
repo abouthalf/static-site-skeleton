@@ -36,7 +36,7 @@ gulp.task("posts", function () {
 		.pipe(frontMatter({
 			property: DATA_PROP
 		}))
-		.pipe(parseFileDate("fake"))
+		.pipe(parseFileDate())
 		.pipe(markdown())
 		.pipe(gulp.dest("www/posts"));
 });
