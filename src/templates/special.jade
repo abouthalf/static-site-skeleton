@@ -1,6 +1,6 @@
 doctype html
 head
-	title= title
+	title SPECIAL TEMPLATE
 	meta(charset='UTF-8')
 	meta(name='viewport',content='width=device-width,initial-scale=1.0')
 	link(href='/css/main.css',rel='stylesheet')
@@ -8,6 +8,7 @@ body
 	header
 		h1= title
 		h2= description
+		p THIS IS A SPECIAL TEMPLATE
 	main
 		if page
 			div.page!= page
@@ -15,5 +16,4 @@ body
 			each post in posts
 				div.post!= post
 	footer
-		p Copypants All Rights Returned 2016
-
+		p THIS IS A SPECIAL TEMPLATE
