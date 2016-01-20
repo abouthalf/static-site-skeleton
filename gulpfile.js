@@ -1,41 +1,60 @@
+"use strict";
+
 const gulp = require("gulp"),
 	less = require("gulp-less"),
-	data = require("gulp-data"),
 	markdown = require("gulp-markdown"),
-	frontMatter = require("front-matter"),
+	frontMatter = require("gulp-front-matter"),
 	LessPluginAutoPrefix = require('less-plugin-autoprefix'),
 	LessPluginCleanCSS = require('less-plugin-clean-css');
 
-const cleancss = new LessPluginCleanCSS({ advanced: true }),
-	autoprefix = new LessPluginAutoPrefix({browsers: ["last 2 versions"]});
+const cleanCss = new LessPluginCleanCSS({advanced: true}),
+	autoPreFix = new LessPluginAutoPrefix({browsers: ["last 2 versions"]});
 
-gulp.task("css", function(){
+const defaults = require("./src/defaults.json");
+
+const DATA_PROP = "data";
+
+
+gulp.task("default", ["css"], function () {
+});
+
+/**
+ * Transform Less to CSS
+ */
+gulp.task("css", function () {
 	return gulp.src("./src/less/main.less")
 		.pipe(less({
-			plugins: [autoprefix, cleancss]
+			plugins: [autoPreFix, cleanCss]
 		}))
 		.pipe(gulp.dest("www/css"));
 });
 
-gulp.task("posts", function(){
-	gulp.src("src/posts/**/*.md")
-		.pipe(data(function(file){
-			var contents = frontMatter(String(file.contents));
-			file.contents = new Buffer(contents.body);
-			return contents.attributes;
+gulp.task("posts", function () {
+	return gulp.src("src/posts/**/*.md")
+		.pipe(frontMatter({
+			property: DATA_PROP
 		}))
 		.pipe(markdown())
 		.pipe(gulp.dest("www/posts"));
 });
 
-gulp.task("pages", function(){
+gulp.task("pages", function () {
+	return gulp.src("src/pages/**/*.md")
+		.pipe(frontMatter({
+			property: DATA_PROP
+		}))
+		.pipe(markdown())
+		.pipe(gulp.dest("www"));
+});
+
+gulp.task("rss", function () {
 
 });
 
-gulp.task("home", function(){
+gulp.task("home", function () {
 
 });
 
-gulp.task("archives", function(){
+gulp.task("archives", function () {
 
 });
