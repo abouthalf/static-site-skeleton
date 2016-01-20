@@ -2,7 +2,7 @@
 title: An example post
 description: This is an example post
 keywords: key words go here
-pubDate: 2015-12-25
+published: 2015-12-25
 ---
 
 # Merry Xmas

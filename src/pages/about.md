@@ -1,7 +1,7 @@
 ---
 title: About
 description: Lorem ipsum dolor sit amet, consectetur adipisicing elit
-keywords: 
+keywords: standard page
 ---
 
 # About
