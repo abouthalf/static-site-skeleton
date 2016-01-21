@@ -1,13 +1,16 @@
 # Static Site Generator Gulp Recipe
 
+# !!!OMG¡¡¡ This work is pre-release and incomplete. Look out! Be careful! Mind the gap!
+
 Sure you could use a [pre-existing static site generator](https://www.staticgen.com), but face it:
 
-* Only developers fuss with static web sites
-* You’re a developer
+* Only developers fuss with static web sites…
+* …So you’re a developer
 * Static site just aren’t that complicated
+* Node exists
 * Gulp exists
 
-So why not just make one? This way if you want to change your template engine, your content format, or add in any special features, you can just write a gulp task for it.
+So why not just make one? This way if you want to change your template engine, your content format, or add in any special features, you can just write a gulp task for it. 
 
 ## About
 
@@ -28,7 +31,27 @@ As well as a few utilities for putting things together and developing:
 
 # How it works
 
-All site generation is bog-standard gulp tasks with a small custom plugin to wrap the page content in a Jade template and a small plugin to create archive pages and a home page of recent blog posts.
+All site generation is bog-standard gulp tasks with small custom plugins to wrap the page content in a Jade, create blog archives, and a home page of blog posts.
+
+After checking out the project run `npm install` to install dependencies.
+
+* Run the default task `gulp` or `gulp default` to build the site.
+* Run `gulp clean` to clobber the contents of your `www` directory
+* Run `gulp server` to run a local dev server and rebuild the site when any changes occur.
+
+
+## Set up
+
+This project assumes familiarity with NodeJs, Gulp, and the command line
+
+1. Install [NodeJS](https://nodejs.org/en/) 4.2.4 or higher
+2. Install [Gulp](http://gulpjs.com) globally
+3. Run `gulp server` to build the site and launch it on a local server.
+
+
+## Deploying
+
+After building your site you may deploy the old fashioned way by pushing the contents of the `www` directory to a web server via FTP (or whatever). Naturally deploying via git post-receive hook or building directly on a web server is an option as well.
 
 ## Blogging
 
@@ -44,7 +67,7 @@ Blogs support:
 * keywords: - keywords for meta-tags
 * slug: An optional URL slug. If omitted a URL slug will be generated from the title
 
-### Publish dates
+### Notes on publish dates
 
 The `published` date front-matter field should be a valid JavaScript date string with a timezone such as `Wed, 20 Jan, 2016 07:08 PST` or `2016-02-14T12:30Z-0800` or `January 20, 2016 7:16 AM PST`.
 
