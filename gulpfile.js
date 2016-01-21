@@ -16,7 +16,8 @@ const cleanCss = new LessPluginCleanCSS({advanced: true}),
 
 // local plugins
 const ensureFileDate = require("./lib/ensure-file-date"),
-	pageToTemplate = require("./lib/page-to-template");
+	pageToTemplate = require("./lib/page-to-template"),
+	titleToSlug = require("./lib/title-to-slug");
 
 const defaults = require("./src/defaults.json");
 
@@ -35,7 +36,7 @@ gulp.task("default", ["css", "posts","pages"], function () {});
  * Clean output directory
  */
 gulp.task("clean", function(){
-	return gulp.src("www/**/*")
+	return gulp.src("www/*")
 		.pipe(clean({read: false, force: true}));
 });
 
@@ -62,6 +63,7 @@ gulp.task("posts", function () {
 		.pipe(markdown())
 		.pipe(pageToTemplate(pageToTemplateOpts))
 		.pipe(jade({pretty: true}))
+		.pipe(titleToSlug())
 		.pipe(gulp.dest("www/posts"));
 });
 
@@ -73,6 +75,7 @@ gulp.task("pages", function () {
 		.pipe(frontMatter({
 			property: DATA_PROP
 		}))
+		.pipe(titleToSlug())
 		.pipe(ensureFileDate())
 		.pipe(markdown())
 		.pipe(pageToTemplate(pageToTemplateOpts))

@@ -1,12 +1,12 @@
 ---
-title: No pub date here
 description: This is an example post
 keywords: key words go here
+published: 2015-11-22
 ---
 
-# This post is missing its publish date
+# This post is missing its title value
 
-So the ensure-file-date plugin should use the mtime (last modified time) property of the file as the published date.
+The title-to-slug plugin should use the file name to make a URL slug.
 
 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,

@@ -1,5 +1,5 @@
 ---
-title: About
+title: About all the things
 description: Lorem ipsum dolor sit amet, consectetur adipisicing elit
 keywords: standard page
 ---

@@ -1,5 +1,5 @@
 ---
-title: An example post
+slug: example-harder™
 description: This is an example post
 keywords: key words go here
 published: 2016-01-18
