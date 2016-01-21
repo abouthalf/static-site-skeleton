@@ -1,7 +1,7 @@
 ---
 description: This is an example post
 keywords: key words go here
-published: 2015-11-22
+published: 2015-11-22 PST
 ---
 
 # This post is missing its title value

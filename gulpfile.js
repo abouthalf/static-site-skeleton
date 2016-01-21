@@ -17,14 +17,19 @@ const cleanCss = new LessPluginCleanCSS({advanced: true}),
 // local plugins
 const ensureFileDate = require("./lib/ensure-file-date"),
 	pageToTemplate = require("./lib/page-to-template"),
-	titleToSlug = require("./lib/title-to-slug");
+	titleToSlug = require("./lib/title-to-slug"),
+	dateToPath = require("./lib/date-to-path");
 
 const defaults = require("./src/defaults.json");
 
 const DATA_PROP = "data",
+	PUBLISEHD_PROP = "published",
 	pageToTemplateOpts = {
 		path: "src/templates",
 		template: defaults.template
+	},
+	frontMatterOpts = {
+		property: DATA_PROP
 	};
 
 /**
@@ -55,16 +60,22 @@ gulp.task("css", function () {
  * Publish blog posts
  */
 gulp.task("posts", function () {
+
+	var dateToPathOpts = {
+		root: defaults.blogDirectory,
+		property: DATA_PROP,
+		parameter: PUBLISEHD_PROP
+	};
+
 	return gulp.src("src/posts/**/*.md")
-		.pipe(frontMatter({
-			property: DATA_PROP
-		}))
+		.pipe(frontMatter(frontMatterOpts))
 		.pipe(ensureFileDate())
 		.pipe(markdown())
 		.pipe(pageToTemplate(pageToTemplateOpts))
 		.pipe(jade({pretty: true}))
 		.pipe(titleToSlug())
-		.pipe(gulp.dest("www/posts"));
+		.pipe(dateToPath(dateToPathOpts))
+		.pipe(gulp.dest("www"));
 });
 
 /**
@@ -72,9 +83,7 @@ gulp.task("posts", function () {
  */
 gulp.task("pages", function () {
 	return gulp.src("src/pages/**/*.md")
-		.pipe(frontMatter({
-			property: DATA_PROP
-		}))
+		.pipe(frontMatter(frontMatterOpts))
 		.pipe(titleToSlug())
 		.pipe(ensureFileDate())
 		.pipe(markdown())

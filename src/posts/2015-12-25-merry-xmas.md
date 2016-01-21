@@ -2,7 +2,7 @@
 title: An example Christmas post
 description: This is an example post for Santa
 keywords: key words go here
-published: 2015-12-25
+published: 2015-12-25 PST
 ---
 
 # Merry Xmas

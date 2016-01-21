@@ -48,6 +48,8 @@ Blogs support:
 
 The `published` date front-matter field should be a valid JavaScript date string with a timezone such as `Wed, 20 Jan, 2016 07:08 PST` or `2016-02-14T12:30Z-0800` or `January 20, 2016 7:16 AM PST`.
 
+If you use an ISO-like string such as `2016-02-15`, without a time or a timezone Node will adjust this to UTC and your dates may appear incorrect. If using an ISO type string, include a timezone like `2016-02-15 PST`. 
+
 When using a localized published date without a timezone, like `January 20, 2016 7:16 AM`, Node will use your system locale and timezone when interpreting the date. This may be fine if you only ever build your site on your personal machine or server - but could be a problem if building on a hosted platform. That is, your host may be in California while you are in New York and now your local NY publish dates are CA dates. Why not eliminate the hassle and include a time zone? [Google `current time` to get your current time with the time zone](https://www.google.com/#q=current+time).
 
 ## Pages

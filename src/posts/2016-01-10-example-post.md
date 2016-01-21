@@ -2,7 +2,7 @@
 title: An example post
 description: This is an example post
 keywords: key words go here
-published: 2016-01-10
+published: 2016-01-10 PST
 ---
 
 # A previous example post
