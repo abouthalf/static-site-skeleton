@@ -7,5 +7,6 @@
   "language": "en-US",
   "homePage": "home.md",
   "blogOnHomePage": true,
-  "blogDirectory": "blog"
+  "blogDirectory": "blog",
+  "url": "http://static-site-skeleton.abouthalf.com"
 }

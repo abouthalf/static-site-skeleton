@@ -6,7 +6,12 @@ head
 	link(href='/css/main.css',rel='stylesheet')
 body
 	header
-		h1= title
+		if (title)
+			if (link)
+				h1
+					a(href=link)= title
+			else
+				h1= title
 		h2= description
 	main
 		if page
@@ -15,7 +20,11 @@ body
 			each post in posts
 				div.post
 					if (post.title)
-						h1= post.title
+						if (post.link)
+							h1
+								a(href=post.link)= post.title
+						else
+							h1= post.title
 					if (post.description)
 						h2= post.description
 					p= "Published on " + post.published.toDateString()

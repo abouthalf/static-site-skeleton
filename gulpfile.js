@@ -21,7 +21,8 @@ const ensureFileDate = require("./lib/ensure-file-date"),
 	pageToTemplate = require("./lib/page-to-template"),
 	titleToSlug = require("./lib/title-to-slug"),
 	dateToPath = require("./lib/date-to-path"),
-	lastNByDate = require("./lib/last-n-by-date");
+	lastNByDate = require("./lib/last-n-by-date"),
+	permalink = require("./lib/permalink");
 
 const defaults = require("./src/defaults.json");
 
@@ -77,9 +78,10 @@ gulp.task("posts", function () {
 		.pipe(ensureFileDate())
 		.pipe(markdown())
 		.pipe(pageToTemplate(pageToTemplateOpts))
-		.pipe(jade({pretty: true}))
 		.pipe(titleToSlug())
 		.pipe(dateToPath(dateToPathOpts))
+		.pipe(permalink())
+		.pipe(jade({pretty: true}))
 		.pipe(gulp.dest("www"));
 });
 
@@ -107,6 +109,7 @@ gulp.task("rss", function () {
 		.pipe(markdown())
 		.pipe(titleToSlug())
 		.pipe(dateToPath(dateToPathOpts))
+		.pipe(permalink({host: defaults.url}))
 		.pipe(lastNByDate())
 		.pipe(data(function(){
 			return defaultPageData;
@@ -140,6 +143,7 @@ gulp.task("home", function () {
 			.pipe(markdown())
 			.pipe(titleToSlug())
 			.pipe(dateToPath(dateToPathOpts))
+			.pipe(permalink())
 			.pipe(lastNByDate(lastNByDateOpts))
 			.pipe(data(function(){
 				return defaultPageData;
