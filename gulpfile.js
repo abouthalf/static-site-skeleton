@@ -7,6 +7,8 @@ const gulp = require("gulp"),
 	frontMatter = require("gulp-front-matter"),
 	server = require("gulp-webserver"),
 	jade = require("gulp-jade"),
+	rename = require("gulp-rename"),
+	data = require("gulp-data"),
 	LessPluginAutoPrefix = require('less-plugin-autoprefix'),
 	LessPluginCleanCSS = require('less-plugin-clean-css');
 
@@ -18,7 +20,8 @@ const cleanCss = new LessPluginCleanCSS({advanced: true}),
 const ensureFileDate = require("./lib/ensure-file-date"),
 	pageToTemplate = require("./lib/page-to-template"),
 	titleToSlug = require("./lib/title-to-slug"),
-	dateToPath = require("./lib/date-to-path");
+	dateToPath = require("./lib/date-to-path"),
+	lastNByDate = require("./lib/last-n-by-date");
 
 const defaults = require("./src/defaults.json");
 
@@ -30,12 +33,21 @@ const DATA_PROP = "data",
 	},
 	frontMatterOpts = {
 		property: DATA_PROP
+	},
+	dateToPathOpts = {
+		root: defaults.blogDirectory,
+		property: DATA_PROP,
+		parameter: PUBLISEHD_PROP
+	},
+	defaultPageData = {
+		title: defaults.title,
+		description: defaults.description
 	};
 
 /**
  * Build the site
  */
-gulp.task("default", ["css", "posts","pages"], function () {});
+gulp.task("default", ["css", "posts","pages", "home", "rss"], function () {});
 
 /**
  * Clean output directory
@@ -60,13 +72,6 @@ gulp.task("css", function () {
  * Publish blog posts
  */
 gulp.task("posts", function () {
-
-	var dateToPathOpts = {
-		root: defaults.blogDirectory,
-		property: DATA_PROP,
-		parameter: PUBLISEHD_PROP
-	};
-
 	return gulp.src("src/posts/**/*.md")
 		.pipe(frontMatter(frontMatterOpts))
 		.pipe(ensureFileDate())
@@ -92,14 +97,77 @@ gulp.task("pages", function () {
 		.pipe(gulp.dest("www"));
 });
 
+/**
+ * Build an RSS feed from the last defaults.postsPerPage posts
+ */
 gulp.task("rss", function () {
-
+	return gulp.src("src/posts/**/*.md")
+		.pipe(frontMatter(frontMatterOpts))
+		.pipe(ensureFileDate())
+		.pipe(markdown())
+		.pipe(titleToSlug())
+		.pipe(dateToPath(dateToPathOpts))
+		.pipe(lastNByDate())
+		.pipe(data(function(){
+			return defaultPageData;
+		}))
+		.pipe(pageToTemplate({
+			path: "src/templates",
+			template: "rss.jade"
+		}))
+		.pipe(jade({pretty: true}))
+		.pipe(rename({
+			dirname: "/",
+			basename: "rss",
+			extname: ".xml"
+		}))
+		.pipe(gulp.dest("www"));
 });
 
+/**
+ * If defaults.blogOnHomePage is true, create a home page with the last n posts per page (defaults.postsPerPage)
+ * If defaults.blogOnHome is false, create a home page from defaults.homePage and rename to index.html
+ */
 gulp.task("home", function () {
-
+	if (defaults.blogOnHomePage) {
+		var lastNByDateOpts = {
+			n: defaults.postsPerPage,
+			parameter: "posts"
+		};
+		return gulp.src("src/posts/**/*.md")
+			.pipe(frontMatter(frontMatterOpts))
+			.pipe(ensureFileDate())
+			.pipe(markdown())
+			.pipe(titleToSlug())
+			.pipe(dateToPath(dateToPathOpts))
+			.pipe(lastNByDate(lastNByDateOpts))
+			.pipe(data(function(){
+				return defaultPageData;
+			}))
+			.pipe(pageToTemplate(pageToTemplateOpts))
+			.pipe(jade({pretty: true}))
+			.pipe(gulp.dest("www"));
+	} else {
+		var homePageSrc = "src/pages/" + defaults.homePage;
+		return gulp.src(homePageSrc)
+			.pipe(frontMatter(frontMatterOpts))
+			.pipe(titleToSlug())
+			.pipe(ensureFileDate())
+			.pipe(markdown())
+			.pipe(pageToTemplate(pageToTemplateOpts))
+			.pipe(jade({pretty: true}))
+			.pipe(rename({
+				dirname: "/",
+				basename: "index",
+				extname: ".html"
+			}))
+			.pipe(gulp.dest("www"));
+	}
 });
 
+/**
+ * Build a blog archive page linking to all blog archives.
+ */
 gulp.task("archives", function () {
 
 });
@@ -113,7 +181,7 @@ gulp.task("server",["default"],function(){
 		.pipe(server({
 			host: "0.0.0.0",
 			liveReload: true,
-			directoryListing: true,
+			directoryListing: false,
 			open: true
 		}));
 	gulp.watch(["src/**/*"], ["default"]);

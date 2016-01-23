@@ -13,7 +13,14 @@ body
 			div.page!= page
 		else if posts && posts.length
 			each post in posts
-				div.post!= post
+				div.post
+					if (post.title)
+						h1= post.title
+					if (post.description)
+						h2= post.description
+					p= "Published on " + post.published.toDateString()
+					div.post-body
+						!= post.contents
 	footer
 		p Copypants All Rights Returned 2016
 
