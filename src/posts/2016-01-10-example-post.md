@@ -1,5 +1,5 @@
 ---
-title: An example post
+title: A previous example post
 description: This is an example post
 keywords: key words go here
 published: 2016-01-10 PST

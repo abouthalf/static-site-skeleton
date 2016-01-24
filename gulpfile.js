@@ -22,7 +22,8 @@ const ensureFileDate = require("./lib/ensure-file-date"),
 	titleToSlug = require("./lib/title-to-slug"),
 	dateToPath = require("./lib/date-to-path"),
 	lastNByDate = require("./lib/last-n-by-date"),
-	permalink = require("./lib/permalink");
+	permalink = require("./lib/permalink"),
+	archiveByPubDate = require("./lib/archive-by-pub-date");
 
 const defaults = require("./src/defaults.json");
 
@@ -48,7 +49,7 @@ const DATA_PROP = "data",
 /**
  * Build the site
  */
-gulp.task("default", ["css", "posts","pages", "home", "rss"], function () {});
+gulp.task("default", ["css", "posts","pages", "home", "rss", "archives"], function () {});
 
 /**
  * Clean output directory
@@ -81,7 +82,7 @@ gulp.task("posts", function () {
 		.pipe(titleToSlug())
 		.pipe(dateToPath(dateToPathOpts))
 		.pipe(permalink())
-		.pipe(jade({pretty: true}))
+		.pipe(jade())
 		.pipe(gulp.dest("www"));
 });
 
@@ -91,11 +92,10 @@ gulp.task("posts", function () {
 gulp.task("pages", function () {
 	return gulp.src("src/pages/**/*.md")
 		.pipe(frontMatter(frontMatterOpts))
-		.pipe(titleToSlug())
 		.pipe(ensureFileDate())
 		.pipe(markdown())
 		.pipe(pageToTemplate(pageToTemplateOpts))
-		.pipe(jade({pretty: true}))
+		.pipe(jade())
 		.pipe(gulp.dest("www"));
 });
 
@@ -118,7 +118,8 @@ gulp.task("rss", function () {
 			path: "src/templates",
 			template: "rss.jade"
 		}))
-		.pipe(jade({pretty: true}))
+		.pipe(jade())
+		// jade plugin insists on naming everything `.html` regardless of doctype
 		.pipe(rename({
 			dirname: "/",
 			basename: "rss",
@@ -146,10 +147,10 @@ gulp.task("home", function () {
 			.pipe(permalink())
 			.pipe(lastNByDate(lastNByDateOpts))
 			.pipe(data(function(){
-				return defaultPageData;
+				return defaultPageData; // set title and description
 			}))
 			.pipe(pageToTemplate(pageToTemplateOpts))
-			.pipe(jade({pretty: true}))
+			.pipe(jade())
 			.pipe(gulp.dest("www"));
 	} else {
 		var homePageSrc = "src/pages/" + defaults.homePage;
@@ -159,7 +160,7 @@ gulp.task("home", function () {
 			.pipe(ensureFileDate())
 			.pipe(markdown())
 			.pipe(pageToTemplate(pageToTemplateOpts))
-			.pipe(jade({pretty: true}))
+			.pipe(jade())
 			.pipe(rename({
 				dirname: "/",
 				basename: "index",
@@ -173,7 +174,20 @@ gulp.task("home", function () {
  * Build a blog archive page linking to all blog archives.
  */
 gulp.task("archives", function () {
-
+	return gulp.src("src/posts/**/*.md")
+		.pipe(frontMatter(frontMatterOpts))
+		.pipe(ensureFileDate())
+		.pipe(markdown())
+		.pipe(titleToSlug())
+		.pipe(dateToPath(dateToPathOpts))
+		.pipe(permalink())
+		.pipe(archiveByPubDate())
+		.pipe(data(function(){
+			return defaultPageData; // set title and description
+		}))
+		.pipe(pageToTemplate(pageToTemplateOpts))
+		.pipe(jade())
+		.pipe(gulp.dest("www/" + defaults.blogDirectory));
 });
 
 /**

@@ -13,6 +13,14 @@ body
 			else
 				h1= title
 		h2= description
+		nav
+			ul
+				li
+					a(href="/blog") Archives
+				li
+					a(href="/about.html") About
+				li
+					a(href="/special.html") Special
 	main
 		if page
 			div.page!= page
@@ -25,11 +33,30 @@ body
 								a(href=post.link)= post.title
 						else
 							h1= post.title
+					else
+						if (post.link)
+							h1
+								a(href=post.link)= post.published.toDateString()
+						else
+							h1= post.published.toDateString()
 					if (post.description)
 						h2= post.description
 					p= "Published on " + post.published.toDateString()
 					div.post-body
 						!= post.contents
+		else if archives
+			h1 Archives
+			each y in archives
+				h2= y.year
+				each month in y.months
+					h3= month.name
+					ul
+					each item in month.items
+						li
+							if (item.title)
+								a(href=item.link)= item.title
+							else
+								a(href=item.link)= item.published.toDateString()
 	footer
 		p Copypants All Rights Returned 2016
 

@@ -1,7 +1,6 @@
 ---
 title: Welcome to my home page
 description: This is a default home page
-nav: false
 ---
 
 # Home page

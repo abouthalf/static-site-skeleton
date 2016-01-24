@@ -11,6 +11,6 @@ rss(version='2.0')
 		each item in items
 			item
 				title= item.title
-				pubDate= (new Date(item.pubDate)).toGMTString()
+				pubDate= item.published.toGMTString()
 				description= item.description
 				link= item.link

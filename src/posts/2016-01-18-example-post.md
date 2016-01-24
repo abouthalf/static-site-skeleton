@@ -1,11 +1,12 @@
 ---
+title: A first example post
 slug: example-harder™
 description: This is an example post
 keywords: key words go here
 published: 2016-01-18 PST
 ---
 
-# An example post
+# A first example post
 
 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,

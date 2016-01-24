@@ -8,6 +8,8 @@ published: 2015-11-22 PST
 
 The title-to-slug plugin should use the file name to make a URL slug.
 
+The page template will fall back to the published date as a title.
+
 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
 quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
